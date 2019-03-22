@@ -90,6 +90,17 @@
             "base" : "/h5/"
         },
         "title" : "demo",
-        "domain" : "demo.com"
+        "domain" : "localhost:8080",
+		"devServer": {
+			"port": 8080,
+			"disableHostCheck": true,
+			"proxy": {
+				"/api": {
+					"target": "http:\/\/www.xuebabiji.club",
+					"changeOrigin": true,
+					"secure": false
+				}
+			}
+		}
     }
 }

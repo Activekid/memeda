@@ -70,22 +70,38 @@
 					qq: isUni ? '/static/qq.png' : require('./images/qq.png'),
 					wechat: isUni ? '/static/wechat.png' : require('./images/wechat.png'),
 					weibo: isUni ? '/static/weibo.png' : require('./images/weibo.png')
-				}
+				},
+				from: ''
 			}
 		},
-		onLoad() {
+		onLoad(options) {
+			// #ifdef H5 || MP-WEIXIN
+			if(options && options.from){
+				this.from = options.from + '?';
+				for (var k in options) {
+					if (k !== 'from') {
+						this.from += (k + '=' + options[k] + '&');
+					}
+				}
+				this.from = this.from.substring(0, this.from.length - 1);
+			}
+			// #endif
 			try {
 				const launchFlag = uni.getStorageSync('launchFlag');
 				if (!launchFlag) {
-					uni.navigateTo({
-						url: '/pages/guide/guide'
-					})
+					setTimeout(function(){
+						uni.redirectTo({
+							url: '/pages/guide/guide'
+						})
+					}, 100)
 				}
 				const token = uni.getStorageSync('token');
 				if (token) {
-					uni.switchTab({
-						url: '/pages/tabBar/component/component'
-					})
+					setTimeout(function(){
+						uni.switchTab({
+							url: '/pages/tabBar/component/component'
+						})
+					}, 100)
 				}
 			} catch (e) {
 				console.log(e)
@@ -105,13 +121,25 @@
 				this.pwdType = this.pwdType === 'text' ? 'password' : 'text'
 			},
 			login() {
-				console.log('username: ' + this.username + ', pwd: ' + this.userpwd)
+				var vm = this;
 				try {
 					uni.setStorageSync('token', 'token')
 					
-					uni.switchTab({
-						url: '/pages/tabBar/component/component'
-					})
+					// #ifdef H5 || MP-WEIXIN
+					setTimeout(function(){
+						uni.switchTab({
+							url: vm.from || '/pages/tabBar/component/component'
+						})
+					}, 100)
+					// #endif
+					
+					// #ifdef APP-PLUS
+					setTimeout(function(){
+						uni.switchTab({
+							url: '/pages/tabBar/component/component'
+						})
+					}, 100)
+					// #endif
 				} catch (e) {
 					console.log(e)
 				}

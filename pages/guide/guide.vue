@@ -53,18 +53,6 @@
 				current: 0
 			}
 		},
-		onLoad() {
-			try {
-				const launchFlag = uni.getStorageSync('launchFlag');
-				if (launchFlag) {
-					uni.navigateTo({
-						url: '/pages/login/login'
-					})
-				}
-			} catch (e) {
-				console.log(e)
-			}
-		},
 		methods: {
 			change: function(e) {
 				this.current = e.detail.current
@@ -76,9 +64,11 @@
 				try {
 					uni.setStorageSync('launchFlag', 'true')
 					
-					uni.navigateTo({
-						url: '/pages/login/login'
-					})
+					setTimeout(function(){
+						uni.redirectTo({
+							url: '/pages/login/login'
+						})
+					}, 100)
 				} catch (e) {
 					console.log(e)
 				}

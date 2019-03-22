@@ -20,37 +20,54 @@ Vue.prototype.$backgroundAudioData = {
 Vue.component('page-head', pageHead)
 Vue.component('page-foot', pageFoot)
 
-uniRequest.defaults.baseURL = 'https://unidemo.dcloud.net.cn';
+// uni.clearStorage();
+uniRequest.defaults.baseURL = ''; // 'http://www.xuebabiji.club'; // h5留空，小程序和APP填域名
 uniRequest.defaults.headers.post['Content-Type'] = 'application/json';
 // http request 请求拦截器，有token值则配置上token值
 uniRequest.interceptors.request.use(
   config => {
-    var token = '';
 	try {
-		token = uni.getStorageSync('token');
+		config.headers.Authorization = uni.getStorageSync('token');
+		return config;
 	} catch(e) {
 		console.log(e);
 	}
-    if (token) {  // 每次发送请求之前判断是否存在token，如果存在，则统一在http请求的header都加上token，不用每次请求都手动添加
-      config.headers.Authorization = token;
-    }
-    return config;
   },
   error => {
     return Promise.reject(error); // 返回错误信息
   }
 );
-// http response 拦截器, 拦截403状态（token过期），重新登录
+// http response 拦截器, 拦截 -1 状态（未登录或token过期），重定向到登录
 uniRequest.interceptors.response.use(
   response => {
-    switch (response.data.code) {
-      case 403:
-        // 返回 403 清除token信息并跳转到登录页面
+    switch (response.data.ok) {
+      case -1:
+        // 返回 -1 清除token信息并跳转到登录页面
 		try {
 			uni.setStorageSync('token', '');
-			uni.navigateTo({
-				url: '/pages/login/login'
-			});
+			setTimeout(function(){
+				// #ifdef H5 || MP-WEIXIN
+				var pages = getCurrentPages(), page = pages[pages.length - 1], queryStr = '';
+				for(var k in page.$mp.query){
+					queryStr += (k + '=' + page.$mp.query[k] + '&');
+				}
+				if(queryStr){
+					queryStr = '&' + queryStr.substring(0, queryStr.length - 1);
+				}
+				console.log('/pages/login/login?from=/' + page.route + queryStr);
+				if (page.route !== 'pages/guide/guide' && page.route !== 'pages/login/login') {
+					uni.redirectTo({
+						url: '/pages/login/login?from=/' + page.route + queryStr
+					});
+				}
+				// #endif
+				
+				// #ifdef APP-PLUS
+				uni.redirectTo({
+					url: '/pages/login/login'
+				});
+				// #endif
+			}, 100);
 		} catch(e) {
 			console.log(e);
 		}
@@ -61,14 +78,6 @@ uniRequest.interceptors.response.use(
     return Promise.reject(error); // 返回错误信息
   }
 );
-uniRequest.get('/ajax/echo/text?name=uni-app', {
-	firstname : 'firstname',
-	lastname : 'lastname'
-}).then(function (response) {
-	console.log(response);
-}).catch(function (error) {
-	console.log(error);
-});
 Vue.prototype.$request = uniRequest;
 
 App.mpType = 'app'

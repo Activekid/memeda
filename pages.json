@@ -1,17 +1,20 @@
 {
 	"pages": [
 		// pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path" : "pages/guide/guide",
-			"style" : {
-				"navigationStyle": "custom"
-			}
-		},
 		/* 登录相关 */
 		{
 			"path" : "pages/login/login",
 			"style" : {
 				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/guide/guide",
+			"style" : {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false
+				}
 			}
 		},
 		{
@@ -38,7 +41,8 @@
 							"fontSize": "22px",
 							"color": "#999999"
 						}]
-					}
+					},
+					"scrollIndicator": "none"
 				}
 			}
 		},
@@ -54,7 +58,25 @@
 							"fontSize": "22px",
 							"color": "#999999"
 						}]
-					}
+					},
+					"scrollIndicator": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/tabBar/extUI/extUI",
+			"style": {
+				"navigationBarTitleText": "扩展组件",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue534",
+							"fontSrc": "/static/uni.ttf",
+							"fontSize": "22px",
+							"color": "#999999"
+						}]
+					},
+					"scrollIndicator": "none"
 				}
 			}
 		},
@@ -70,25 +92,12 @@
 							"fontSize": "22px",
 							"color": "#999999"
 						}]
-					}
+					},
+					"scrollIndicator": "none"
 				}
 			}
-		}, {
-			"path": "pages/tabBar/extUI/extUI",
-			"style": {
-				"navigationBarTitleText": "扩展组件",
-				"app-plus": {
-					"titleNView": {
-						"buttons": [{
-							"text": "\ue534",
-							"fontSrc": "/static/uni.ttf",
-							"fontSize": "22px",
-							"color": "#999999"
-						}]
-					}
-				}
-			}
-		}, {
+		},
+		{
 			"path": "pages/component/view/view",
 			"style": {
 				"navigationBarTitleText": "view"
