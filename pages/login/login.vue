@@ -118,12 +118,12 @@
 			},
 			goReg() {
 				uni.navigateTo({
-					url:'/pages/reg/reg'
+					url: '/pages/reg/reg'
 				})
 			},
 			findPwd() {
 				uni.navigateTo({
-					url:'/pages/find-pwd/find-pwd'
+					url: '/pages/find-pwd/find-pwd'
 				})
 			},
 			thirdLogin(type) {
