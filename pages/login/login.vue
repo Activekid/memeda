@@ -73,6 +73,24 @@
 				}
 			}
 		},
+		onLoad() {
+			try {
+				const launchFlag = uni.getStorageSync('launchFlag');
+				if (!launchFlag) {
+					uni.navigateTo({
+						url: '/pages/guide/guide'
+					})
+				}
+				const token = uni.getStorageSync('token');
+				if (token) {
+					uni.switchTab({
+						url: '/pages/tabBar/component/component'
+					})
+				}
+			} catch (e) {
+				console.log(e)
+			}
+		},
 		methods: {
 			inputUsername(e) {
 				this.username = e.target.value
@@ -87,22 +105,16 @@
 				this.pwdType = this.pwdType === 'text' ? 'password' : 'text'
 			},
 			login() {
-				console.log('username:' + this.username + ',pwd:' + this.userpwd)
-				/*uni.switchTab({
-					url: '/pages/tabBar/component/component'
-				})*/
-				// 从相册选择6张图
-				uni.chooseImage({
-					count: 6,
-					sizeType: ['original', 'compressed'],
-					sourceType: ['album'],
-					success: function (res) {
-						// 预览图片
-						uni.previewImage({
-							urls: res.tempFilePaths
-						});
-					}
-				});
+				console.log('username: ' + this.username + ', pwd: ' + this.userpwd)
+				try {
+					uni.setStorageSync('token', 'token')
+					
+					uni.switchTab({
+						url: '/pages/tabBar/component/component'
+					})
+				} catch (e) {
+					console.log(e)
+				}
 			},
 			goReg() {
 				uni.navigateTo({
