@@ -112,7 +112,11 @@
 		{
 			"path": "pages/component/swiper/swiper",
 			"style": {
-				"navigationBarTitleText": "swiper"
+				"navigationBarTitleText": "swiper",
+				"app-plus": {
+					"titleNView": false
+				},
+				"navigationStyle": "custom"
 			}
 		},
 		// #ifndef MP-TOUTIAO
@@ -235,7 +239,9 @@
 		{
 			"path": "pages/component/video/video",
 			"style": {
-				"navigationBarTitleText": "video"
+				"navigationBarTitleText": "video",
+				"navigationStyle": "custom",
+				"scrollIndicator": "none"
 			}
 		},
 		// #endif

@@ -1,13 +1,13 @@
 <template>
 	<view>
-		<page-head :title="title"></page-head>
+		<!--<page-head :title="title"></page-head>-->
 		<view class="uni-padding-wrap uni-common-mt">
 			<view>
 				<video id="myVideo" src="http://static1.wkzj.net/web/videos/91b13e48-eb98-45e1-ab0d-5d7bd7b9d765.mp4"
 				 @error="videoErrorCallback" :danmu-list="danmuList" enable-danmu danmu-btn controls></video>
 			</view>
 			<!-- #ifndef MP-ALIPAY -->
-			<view class="uni-list uni-common-mt">
+			<!--<view class="uni-list uni-common-mt">
 				<view class="uni-list-cell">
 					<view>
 						<view class="uni-label">弹幕内容</view>
@@ -19,7 +19,7 @@
 			</view>
 			<view class="uni-btn-v">
 				<button @click="sendDanmu" class="page-body-button">发送弹幕</button>
-			</view>
+			</view>-->
 			<!-- #endif -->
 		</view>
 	</view>
@@ -77,10 +77,15 @@
 </script>
 
 <style>
-	video {
-		width: 690upx;
+	.uni-padding-wrap {
+		width: 100vw;
+		height: 100vh;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
 	}
-	.test {
-		
+	video {
+		width: 100vw;
+		height: 100vh;
 	}
 </style>

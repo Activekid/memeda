@@ -77,4 +77,9 @@
 		font-size: 38upx;
 		color: #808080;
 	}
+	
+	.uni-video-video {
+		position: fixed;
+		z-index: -1;
+	}
 </style>
