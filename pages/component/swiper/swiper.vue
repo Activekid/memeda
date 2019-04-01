@@ -8,17 +8,32 @@
 					<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration" :vertical="vertical" :circular="circular" @change="change">
 						<swiper-item item-id="A">
 							<view class="swiper-item">
-								<video class="myVideo" :src="srcA" autoplay="false" direction="-90" controls></video>
+								<video class="myVideo" ref="myVideoA" :src="srcA" :autoplay="autoplayA" show-center-play-btn="true" direction="-90" @fullscreenchange="fullscreenchange" controls>
+									<cover-view class="recomender">
+										<text class="name">#姚老师</text>
+										<text>推荐</text>
+									</cover-view>
+								</video>
 							</view>
 						</swiper-item>
 						<swiper-item item-id="B">
 							<view class="swiper-item">
-								<video class="myVideo" :src="srcB" autoplay="false" controls></video>
+								<video class="myVideo" ref="myVideoB" :src="srcB" :autoplay="autoplayB" show-center-play-btn="true" direction="-90" @fullscreenchange="fullscreenchange" controls>
+									<cover-view class="recomender">
+										<text class="name">{{tname}}</text>
+										<text>推荐</text>
+									</cover-view>
+								</video>
 							</view>
 						</swiper-item>
 						<swiper-item item-id="C">
 							<view class="swiper-item">
-								<video class="myVideo" :src="srcC" autoplay="false" controls></video>
+								<video class="myVideo" ref="myVideoC" :src="srcC" :autoplay="autoplayC" show-center-play-btn="true" direction="-90" @fullscreenchange="fullscreenchange" controls>
+									<cover-view class="recomender">
+										<text class="name">#王老师</text>
+										<text>推荐</text>
+									</cover-view>
+								</video>
 							</view>
 						</swiper-item>
 					</swiper>
@@ -27,7 +42,10 @@
 		</view>
 		<!-- #endif -->
 		<!-- #ifdef APP-PLUS || MP-WEIXIN -->
-		<web-view :src="url"></web-view>
+		<view class="search">
+			<uni-icon size="30" type="search" color="#fff" @click="goToSearch"></uni-icon>
+		</view>
+		<web-view class="webview" :src="url" progress="false"></web-view>
 		<!-- #endif -->
 		
 		<!--<view class="swiper-list">
@@ -56,7 +74,12 @@
 	</view>
 </template>
 <script>
+	import uniIcon from '@/components/uni-icon/uni-icon.vue'
+
 	export default {
+		components: {
+			uniIcon
+		},
 		data() {
 			return {
 				title: 'swiper',
@@ -80,7 +103,11 @@
 				index: 0,
 				position: 'A',
 				positions: ['A', 'B', 'C'],
-				url: 'http://192.168.0.48:8080/h5/pages/component/swiper/swiper'
+				url: 'http://192.168.0.48:8080/h5/pages/component/swiper/swiper',
+				autoplayA: true,
+				autoplayB: false,
+				autoplayC: false,
+				tname: '#李老师'
 			}
 		},
 		methods: {
@@ -110,13 +137,35 @@
 				this['src' + this.positions[(newIndex + 3 - 1) % 3]] = this.srcs[(this.index + this.srcs.length - 1) % (this.srcs.length)]
 				this['src' + this.positions[(newIndex + 3 + 1) % 3]] = this.srcs[(this.index + this.srcs.length + 1) % (this.srcs.length)]
 				this.position = itemId
+				
+				var that = this
+				setTimeout(function(){
+					/*that['autoplay' + that.positions[(newIndex + 3 - 1) % 3]] = false
+					that['autoplay' + itemId] = true
+					that['autoplay' + that.positions[(newIndex + 3 + 1) % 3]] = false*/
+					
+					that.tname = (new Date()).getTime()
+					
+					that.$refs['myVideo' + that.positions[(newIndex + 3 - 1) % 3]].pause()
+					that.$refs['myVideo' + itemId].play()
+					that.$refs['myVideo' + that.positions[(newIndex + 3 - 1) % 3]].pause()
+				}, 1000);
+			},
+			fullscreenchange(e) {
+				// #ifdef APP-PLUS
+				plus.navigator.setFullscreen(e.detail.fullScreen);
+				// #endif
+			},
+			goToSearch() {
+				console.log('xxx');
 			}
 		}
 	}
 </script>
 
-<style scoped="">
+<style lang="scss">
 	.uni-padding-wrap {
+		position: relative;
 		padding: 0;
 		width: 100vw;
 	}
@@ -135,6 +184,32 @@
 	.myVideo {
 		width: 100vw;
 		height: 100vh;
+	}
+	.recomender {
+		position: absolute;
+		top: 50upx;
+		right: 30upx;
+		left: 30upx;
+		z-index: 10000;
+		text-align: left;
+		font-size: 36upx;
+		color: #fff;
+		.name {
+			font-weight: bold;
+			margin-right: 10upx;
+		}
+	}
+	.search {
+		position: fixed;
+		top: 56upx;
+		right: 30upx;
+		z-index: 10000;
+		width: 60upx;
+		height: 60upx;
+	}
+	.webview {
+		position: fixed;
+		z-index: -1;
 	}
 
 	.swiper-list {

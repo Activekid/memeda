@@ -77,8 +77,11 @@
 		font-size: 38upx;
 		color: #808080;
 	}
+	.uni-video-container {
+		opacity: 0.9;
+	}
 	
-	.uni-video-video {
+	.uni-video-type-fullscreen .uni-video-video {
 		position: fixed;
 		z-index: -1;
 	}

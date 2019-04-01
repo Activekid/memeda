@@ -2,7 +2,7 @@
 	"pages": [
 		// pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		/* 登录相关 */
-		{
+		/*{
 			"path" : "pages/login/login",
 			"style" : {
 				"navigationStyle": "custom"
@@ -108,7 +108,7 @@
 			"style": {
 				"navigationBarTitleText": "scroll-view"
 			}
-		},
+		},*/
 		{
 			"path": "pages/component/swiper/swiper",
 			"style": {
@@ -116,9 +116,10 @@
 				"app-plus": {
 					"titleNView": false
 				},
+				"navigationBarTextStyle": "white",
 				"navigationStyle": "custom"
 			}
-		},
+		}/*,
 		// #ifndef MP-TOUTIAO
 		{
 			"path": "pages/component/movable-view/movable-view",
@@ -583,7 +584,7 @@
 			"style": {
 				"navigationBarTitleText": "震动"
 			}
-		}
+		}*/
 	],
 	"subPackages": [{
 			"root": "pages/extUI",
@@ -592,7 +593,7 @@
 					"style": {
 						"navigationBarTitleText": "Badge 数字角标"
 					}
-				}, {
+				}/*, {
 					"path": "count-down/count-down",
 					"style": {
 						"navigationBarTitleText": "CountDown 倒计时"
@@ -701,7 +702,7 @@
 					"style": {
 						"navigationBarTitleText": "calendar 日历"
 					}
-				}
+				}*/
 			]
 		},
 		{
@@ -713,7 +714,7 @@
 						"enablePullDownRefresh": true,
 						"onReachBottomDistance": 20
 					}
-				},
+				}/*,
 				// #ifdef APP-PLUS || MP-WEIXIN || H5
 				{
 					"path": "uparse-md/uparse-md",
@@ -1069,7 +1070,7 @@
 							"bounce": "none"
 						}
 					}
-				}
+				}*/
 			]
 		}
 	],
@@ -1081,7 +1082,7 @@
 		"mp-alipay": {
 			"titleBarColor": "#FFFFFF"
 		}
-	},
+	}/*,
 	"tabBar": {
 		"color": "#7A7E83",
 		"selectedColor": "#007AFF",
@@ -1110,5 +1111,5 @@
 				"text": "模板"
 			}
 		]
-	}
+	}*/
 }
