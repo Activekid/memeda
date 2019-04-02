@@ -102,12 +102,6 @@
 			"style": {
 				"navigationBarTitleText": "view"
 			}
-		},
-		{
-			"path": "pages/component/scroll-view/scroll-view",
-			"style": {
-				"navigationBarTitleText": "scroll-view"
-			}
 		},*/
 		{
 			"path": "pages/component/swiper/swiper",
@@ -118,6 +112,12 @@
 				},
 				"navigationBarTextStyle": "white",
 				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/component/scroll-view/scroll-view",
+			"style": {
+				"navigationBarTitleText": "scroll-view"
 			}
 		}/*,
 		// #ifndef MP-TOUTIAO

@@ -5,35 +5,43 @@
 		<view class="uni-padding-wrap">
 			<view class="page-section swiper">
 				<view class="page-section-spacing">
+					<!--<view class="search">
+						<uni-icon size="30" type="search" color="#fff" @click="goToSearch"></uni-icon>
+					</view>-->
+					<cover-view class="search">
+						<navigator url="/pages/component/scroll-view/scroll-view" animation-type="pop-in">
+							<button type="default">跳转到新页面</button>
+						</navigator>
+					</cover-view>
 					<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration" :vertical="vertical" :circular="circular" @change="change">
 						<swiper-item item-id="A">
 							<view class="swiper-item">
 								<video class="myVideo" ref="myVideoA" :src="srcA" :autoplay="autoplayA" show-center-play-btn="true" direction="-90" @fullscreenchange="fullscreenchange" controls>
-									<cover-view class="recomender">
-										<text class="name">#姚老师</text>
-										<text>推荐</text>
-									</cover-view>
 								</video>
+								<cover-view class="recomender">
+									<text class="name">#姚老师</text>
+									<text>推荐</text>
+								</cover-view>
 							</view>
 						</swiper-item>
 						<swiper-item item-id="B">
 							<view class="swiper-item">
 								<video class="myVideo" ref="myVideoB" :src="srcB" :autoplay="autoplayB" show-center-play-btn="true" direction="-90" @fullscreenchange="fullscreenchange" controls>
-									<cover-view class="recomender">
-										<text class="name">{{tname}}</text>
-										<text>推荐</text>
-									</cover-view>
 								</video>
+								<cover-view class="recomender">
+									<text class="name">{{tname}}</text>
+									<text>推荐</text>
+								</cover-view>
 							</view>
 						</swiper-item>
 						<swiper-item item-id="C">
 							<view class="swiper-item">
 								<video class="myVideo" ref="myVideoC" :src="srcC" :autoplay="autoplayC" show-center-play-btn="true" direction="-90" @fullscreenchange="fullscreenchange" controls>
-									<cover-view class="recomender">
-										<text class="name">#王老师</text>
-										<text>推荐</text>
-									</cover-view>
 								</video>
+								<cover-view class="recomender">
+									<text class="name">#王老师</text>
+									<text>推荐</text>
+								</cover-view>
 							</view>
 						</swiper-item>
 					</swiper>
@@ -42,10 +50,7 @@
 		</view>
 		<!-- #endif -->
 		<!-- #ifdef APP-PLUS || MP-WEIXIN -->
-		<view class="search">
-			<uni-icon size="30" type="search" color="#fff" @click="goToSearch"></uni-icon>
-		</view>
-		<web-view class="webview" :src="url" progress="false"></web-view>
+		<web-view class="webview" :src="url" @message="onMessage"></web-view>
 		<!-- #endif -->
 		
 		<!--<view class="swiper-list">
@@ -104,11 +109,23 @@
 				position: 'A',
 				positions: ['A', 'B', 'C'],
 				url: 'http://192.168.0.48:8080/h5/pages/component/swiper/swiper',
-				autoplayA: true,
+				autoplayA: false,
 				autoplayB: false,
 				autoplayC: false,
-				tname: '#李老师'
+				tname: '#李老师',
+				startX: 0,
+				startY: 0,
+				endX: 0,
+				endY: 0,
+				distanceX: 0,
+				distanceY: 0
 			}
+		},
+		mounted() {
+			plus.navigator.setFullscreen(false);
+			// #ifdef H5
+			this.$refs['myVideoA'].play()
+			// #endif
 		},
 		methods: {
 			changeIndicatorDots(e) {
@@ -149,7 +166,7 @@
 					that.$refs['myVideo' + that.positions[(newIndex + 3 - 1) % 3]].pause()
 					that.$refs['myVideo' + itemId].play()
 					that.$refs['myVideo' + that.positions[(newIndex + 3 - 1) % 3]].pause()
-				}, 1000);
+				}, 500);
 			},
 			fullscreenchange(e) {
 				// #ifdef APP-PLUS
@@ -158,6 +175,39 @@
 			},
 			goToSearch() {
 				console.log('xxx');
+				uni.postMessage({
+					data: {
+						action: 'message'
+					}
+				});
+			},
+			onMoveStart(e) {
+				console.log(e);
+				this.startX = e.touches[0].pageX;
+				this.startY = e.touches[0].pageY;
+			},
+			onMove(e) {
+				console.log(e);
+				//获取滑动屏幕时的X, Y
+				var endX = e.touches[0].pageX, endY = e.touches[0].pageY;
+				//获取滑动距离
+				this.distanceX = endX - this.startX;
+				this.distanceY = endY - this.startY;
+				//判断滑动方向
+				if(Math.abs(this.distanceX) > Math.abs(this.distanceY) && this.distanceX > 0){
+					console.log('往右滑动');
+				}else if(Math.abs(this.distanceX) > Math.abs(this.distanceY) && this.distanceX < 0){
+					console.log('往左滑动');
+				}else if(Math.abs(this.distanceX) < Math.abs(this.distanceY) && this.distanceY < 0){
+					console.log('往上滑动');
+				}else if(Math.abs(this.distanceX) < Math.abs(this.distanceY) && this.distanceY > 0){
+					console.log('往下滑动');
+				}else{
+					console.log('点击未滑动');
+				}
+			},
+			onMessage(e) {
+				console.log(JSON.stringify(e));
 			}
 		}
 	}
@@ -173,6 +223,7 @@
 	.swiper {
 		width: 100vw;
 		height: 100vh;
+		border: none;
 	}
 	.swiper-item {
 		display: block;
@@ -180,6 +231,7 @@
 		line-height: 100vh;
 		text-align: center;
 		color: #ffffff;
+		border: none;
 	}
 	.myVideo {
 		width: 100vw;
@@ -187,7 +239,7 @@
 	}
 	.recomender {
 		position: absolute;
-		top: 50upx;
+		top: 60upx;
 		right: 30upx;
 		left: 30upx;
 		z-index: 10000;
