@@ -5,14 +5,14 @@
 		<view class="uni-padding-wrap">
 			<view class="page-section swiper">
 				<view class="page-section-spacing">
-					<!--<view class="search">
+					<view class="search">
 						<uni-icon size="30" type="search" color="#fff" @click="goToSearch"></uni-icon>
-					</view>-->
-					<cover-view class="search">
-						<navigator url="/pages/component/scroll-view/scroll-view" animation-type="pop-in">
-							<button type="default">跳转到新页面</button>
+					</view>
+					<!--<cover-view class="search">
+						<navigator url="/pages/component/scroll-view/scroll-view" animation-type="pop-in" animation-duration="300">
+							<button type="default" @click="goToSearch">跳转到新页面</button>
 						</navigator>
-					</cover-view>
+					</cover-view>-->
 					<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration" :vertical="vertical" :circular="circular" @change="change">
 						<swiper-item item-id="A">
 							<view class="swiper-item">
@@ -50,7 +50,8 @@
 		</view>
 		<!-- #endif -->
 		<!-- #ifdef APP-PLUS || MP-WEIXIN -->
-		<web-view class="webview" :src="url" @message="onMessage"></web-view>
+		<web-view class="webview" :src="url" @message="onMessage">
+		</web-view>
 		<!-- #endif -->
 		
 		<!--<view class="swiper-list">
@@ -122,10 +123,16 @@
 			}
 		},
 		mounted() {
-			plus.navigator.setFullscreen(false);
 			// #ifdef H5
 			this.$refs['myVideoA'].play()
 			// #endif
+		},
+		onShareAppMessage() {
+			return {
+				title: '美女图册',
+				path: '/pages/list/list',
+				imageUrl: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=218975447,1440067537&fm=58&bpow=385&bpoh=249'
+			};
 		},
 		methods: {
 			changeIndicatorDots(e) {
@@ -174,7 +181,9 @@
 				// #endif
 			},
 			goToSearch() {
-				console.log('xxx');
+				/*uni.navigateTo({
+					url: '/pages/component/scroll-view/scroll-view'
+				});*/
 				uni.postMessage({
 					data: {
 						action: 'message'
@@ -253,7 +262,7 @@
 	}
 	.search {
 		position: fixed;
-		top: 56upx;
+		top: 156upx;
 		right: 30upx;
 		z-index: 10000;
 		width: 60upx;

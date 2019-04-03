@@ -55,6 +55,13 @@
 				this.old.scrollTop = e.detail.scrollTop
 			},
 			goTop: function(e) {
+				return uni.scanCode({
+					success: function (res) {
+						uni.showModal({
+							title: 'xxx'
+						});
+					}
+				});
 				// 解决view层不同步的问题
 				this.scrollTop = this.old.scrollTop
 				this.$nextTick(function() {

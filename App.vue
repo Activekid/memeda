@@ -1,7 +1,6 @@
 <script>
 	export default {
 		onLaunch: function() {
-			console.log('App Launch');
 			// #ifdef APP-PLUS
 			// 锁定屏幕方向
 			plus.screen.lockOrientation('portrait-primary'); //锁定
@@ -76,9 +75,6 @@
 		margin-top: 10px;
 		font-size: 38upx;
 		color: #808080;
-	}
-	.uni-video-container {
-		opacity: 0.9;
 	}
 	
 	.uni-video-type-fullscreen .uni-video-video {
