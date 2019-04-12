@@ -14,7 +14,7 @@
 					<view id="demo3" class="scroll-view-item uni-bg-blue">C</view>
 				</scroll-view>
 			</view>
-			<view @tap="goTop" class="uni-link uni-center uni-common-mt">
+			<view @tap="test" class="uni-link uni-center uni-common-mt">
 				点击这里返回顶部
 			</view>
 			
@@ -71,6 +71,9 @@
 					icon:"none",
 					title:"纵向滚动 scrollTop 值已被修改为 0"
 				})
+			},
+			test: function() {
+				uni.scanCode();
 			}
 		}
 	}

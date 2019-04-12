@@ -109,7 +109,7 @@
 				index: 0,
 				position: 'A',
 				positions: ['A', 'B', 'C'],
-				url: 'http://192.168.0.48:8080/h5/pages/component/swiper/swiper',
+				url: 'https://api.47ks.com/webcloud/?v=https://www.iqiyi.com/v_19rshl6jyk.html?src=focustext_1_20130410_1',
 				autoplayA: false,
 				autoplayB: false,
 				autoplayC: false,
@@ -184,11 +184,11 @@
 				/*uni.navigateTo({
 					url: '/pages/component/scroll-view/scroll-view'
 				});*/
-				uni.postMessage({
+				/*uni.postMessage({
 					data: {
 						action: 'message'
 					}
-				});
+				});*/
 			},
 			onMoveStart(e) {
 				console.log(e);
@@ -216,7 +216,18 @@
 				}
 			},
 			onMessage(e) {
-				console.log(JSON.stringify(e));
+				uni.showModal({
+					title: '提示',
+					content: JSON.stringify(e),
+					success: function (res) {
+						if (res.confirm) {
+							console.log('用户点击确定');
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				});
+				//console.log(JSON.stringify(e));
 			}
 		}
 	}
